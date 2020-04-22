@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace ConsoleApp2
 {
@@ -89,32 +90,43 @@ namespace ConsoleApp2
 
                 // ? after the variable checks to see if variable !=` null  .... this ensures your variable is populated with something
                 //ToLower() converts the variable to lowercase so it will check both upper and lower in the if statement
-                if (response?.ToLower().FirstOrDefault() == 'y')
+
+                if (response != null && response.Length > 0 && response.FirstOrDefault() == 'n' || response.FirstOrDefault() == 'y')
                 {
-                    //we know the number is between guessFrom and guessTo
-                    //So set the new max number
-                    this.MaximumNumber = this.GuessMaximum;
 
-                    // change the next guess range to be half of the new max range
-                    this.GuessMaximum = this.GuessMaximum - (this.GuessMaximum - this.GuessMinimum) / 2;
+                    if (response?.ToLower().FirstOrDefault() == 'y')
+                    {
+                        //we know the number is between guessFrom and guessTo
+                        //So set the new max number
+                        this.MaximumNumber = this.GuessMaximum;
+
+                        // change the next guess range to be half of the new max range
+                        this.GuessMaximum = this.GuessMaximum - (this.GuessMaximum - this.GuessMinimum) / 2;
 
 
 
+                    }
+                    // the number is greater than guessMax and less than or equal to Max
+                    else
+                    {
+                        //the new min is one above the old maximum
+                        this.GuessMinimum = this.GuessMaximum + 1;
+
+                        //Guess the bottom half of the new range 
+                        int remainingDiff = this.MaximumNumber - this.GuessMaximum;
+
+                        // add the remaining diff to the guessMax for your next ask
+                        // NOTE: Math.Ceiling will round up the remaining difference to 2, if the difference is 3.
+                        this.GuessMaximum += (int)Math.Ceiling(remainingDiff / 2f);
+
+                    }
                 }
-                // the number is greater than guessMax and less than or equal to Max
-                else
-                {
-                    //the new min is one above the old maximum
-                    this.GuessMinimum = this.GuessMaximum + 1;
+                else 
+                    {
+                   var error = MessageBox.Show("You need to answer with a word that either starts with a 'y' or an 'n'.", "ERROR",MessageBoxButton.OK);
+                    this.CurrentNumberOfGuesses--;
+                     }       
 
-                    //Guess the bottom half of the new range 
-                    int remainingDiff = this.MaximumNumber - this.GuessMaximum;
-
-                    // add the remaining diff to the guessMax for your next ask
-                    // NOTE: Math.Ceiling will round up the remaining difference to 2, if the difference is 3.
-                    this.GuessMaximum += (int)Math.Ceiling(remainingDiff / 2f);
-
-                }
 
                 // if we only  have two numbers left we guess one of them
                 if (this.GuessMinimum + 1 == this.MaximumNumber)
