@@ -60,6 +60,9 @@ namespace ConsoleApp2
             // ask user to think of number
             Console.Write($"Think of a number between 0 and {this.MaximumNumber}"); ;
             Console.ReadLine();
+
+
+
         }
 
         /// <summary>
@@ -78,9 +81,11 @@ namespace ConsoleApp2
                 //Increase guess amount
                 this.CurrentNumberOfGuesses++;
 
-                //Ask the user if their number is between the guess range
+               
                 Console.WriteLine($"Is your number between {this.GuessMinimum} and {this.GuessMaximum}?");
+                //Records initial user response
                 string response = Console.ReadLine();
+
 
 
                 //if the user confirmed their number is within the current range
@@ -91,7 +96,7 @@ namespace ConsoleApp2
                 // ? after the variable checks to see if variable !=` null  .... this ensures your variable is populated with something
                 //ToLower() converts the variable to lowercase so it will check both upper and lower in the if statement
 
-                if (response != null && response.Length > 0 && response.FirstOrDefault() == 'n' || response.FirstOrDefault() == 'y')
+                if (response != null && response.Length > 0 && (response.FirstOrDefault() == 'n' || response.FirstOrDefault() == 'y'))
                 {
 
                     if (response?.ToLower().FirstOrDefault() == 'y')
